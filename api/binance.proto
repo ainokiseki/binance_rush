@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package binance;
+
+// The greeting service definition.
+service Binance {
+  rpc Ping (HelloRequest) returns (HelloReply) {}
+  rpc GetUserState (HelloRequest)returns (GetUserStateReply){}
+}
+
+// The request message containing the user's name.
+message HelloRequest {
+}
+
+// The response message containing the greetings
+message HelloReply {
+}
+
+message GetUserStateReply{
+
+}
