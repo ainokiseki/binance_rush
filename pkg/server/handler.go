@@ -59,8 +59,9 @@ func (h *handler) CreateCoinRushTask(ctx context.Context, request *api.CreateCoi
 	j, err := h.scheduler.NewJob(
 		gocron.OneTimeJob(gocron.OneTimeJobStartDateTime(tm)),
 		gocron.NewTask(func() {
-			log.Println("close channel")
 			close(ch)
+			log.Println("close channel in:", time.Now().Format("2006-01-02 15:04:05.000"))
+
 		}),
 		gocron.WithName(request.GetSymbol()+":"+request.GetPrice()+":"+request.GetBidQuantity()),
 	)
