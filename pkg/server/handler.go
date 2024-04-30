@@ -54,7 +54,7 @@ func (h *handler) CreateCoinRushTask(ctx context.Context, request *api.CreateCoi
 
 	milliTimeStamp -= int64(mean) - int64(sd)
 
-	tm := getTimeFromMilli(request.GetStartTimestampMilli())
+	tm := getTimeFromMilli(milliTimeStamp)
 
 	j, err := h.scheduler.NewJob(
 		gocron.OneTimeJob(gocron.OneTimeJobStartDateTime(tm)),
