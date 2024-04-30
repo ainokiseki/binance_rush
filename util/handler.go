@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"sync"
 	"time"
 
 	"github.com/ainokiseki/go-binance/v2"
@@ -9,6 +10,17 @@ import (
 
 	"ainokiseki/binance_rush/common"
 )
+
+var CalculateDelayOnce sync.Once
+
+var requestDelayMean, requestDelaySd float64
+
+func GetDelay(ctx context.Context, c *binance.Client) (mean, sd float64) {
+	CalculateDelayOnce.Do(func() {
+		requestDelayMean, requestDelaySd = CalculateDelay(ctx, c)
+	})
+	return requestDelayMean, requestDelaySd
+}
 
 func CalculateDelay(ctx context.Context, c *binance.Client) (mean, sd float64) {
 	resChan := make(chan int64, 60)
