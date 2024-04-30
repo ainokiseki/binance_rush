@@ -1,11 +1,16 @@
 syntax = "proto3";
 
-package binance;
+package api;
+
+
+option  go_package="github.com/ainokiseki/binance_rush/api";
+
 
 // The greeting service definition.
 service Binance {
   rpc Ping (HelloRequest) returns (HelloReply) {}
-  rpc GetUserState (HelloRequest)returns (GetUserStateReply){}
+  rpc CreateCoinRushTask (CreateCoinRushTaskRequest)returns (CreateCoinRushTaskReply){}
+  rpc ListTask(ListTaskRequest) returns (ListTaskReply){}
 }
 
 // The request message containing the user's name.
@@ -16,6 +21,30 @@ message HelloRequest {
 message HelloReply {
 }
 
-message GetUserStateReply{
+message CreateCoinRushTaskRequest{
+  int64 start_timestamp_milli=1;
+  string symbol=2;
+  string bid_quantity=3;
+  string price=4;
+  int32 execute_times=5;
+}
 
+message    CreateCoinRushTaskReply{
+  bool success=1;
+  string id=2;
+}
+
+message Task{
+  string id=1;
+  string name=2;
+  string last_time=3;
+  string next_time=4;
+}
+
+
+message ListTaskRequest{
+}
+
+message ListTaskReply{
+  repeated Task tasks=1;
 }

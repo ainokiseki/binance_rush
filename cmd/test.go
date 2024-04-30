@@ -1,6 +1,5 @@
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
@@ -11,7 +10,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"ainokiseki/binance_rush/handler"
+	"ainokiseki/binance_rush/util"
 )
 
 // testCmd represents the test command
@@ -49,7 +48,7 @@ to quickly create a Cobra application.`,
 			return
 		}
 
-		mean, variance := handler.CalculateDelay(ctx, c)
+		mean, variance := util.GetDelay(ctx, c)
 		fmt.Println("平均延时：", mean, "标准差：", variance)
 
 	},

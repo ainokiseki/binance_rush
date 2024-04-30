@@ -7,6 +7,8 @@ import (
 	"time"
 
 	"github.com/ainokiseki/go-binance/v2"
+
+	"ainokiseki/binance_rush/settings"
 )
 
 func TestBi(t *testing.T) {
@@ -14,8 +16,8 @@ func TestBi(t *testing.T) {
 	c = binance.NewClientWithConfig(binance.ClientCreateConfig{
 		Proxy:     "http://127.0.0.1:7890",
 		Signature: nil,
-		APIKey:    AK,
-		SecretKey: SK,
+		APIKey:    settings.Config.AK,
+		SecretKey: settings.Config.SK,
 	})
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)

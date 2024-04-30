@@ -1,4 +1,4 @@
-package client
+package trade
 
 import (
 	"context"
@@ -130,7 +130,7 @@ func calcTriangle(c *BinanceClient, price tri, name, stable, chao string) {
 	if total >= MaxTransTimeLimit {
 		return
 	}
-	
+
 	start := 10000.0
 	cc := start * price.s2c * price.c2s * price.s2s * 0.99925
 

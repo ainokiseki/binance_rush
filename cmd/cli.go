@@ -1,22 +1,19 @@
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 */
-package cli
+package cmd
 
 import (
-	"context"
 	"fmt"
-	"log"
 
 	"github.com/spf13/cobra"
 
-	"ainokiseki/binance_rush/api"
-	"ainokiseki/binance_rush/pkg/client"
+	"ainokiseki/binance_rush/cmd/cli"
 )
 
-// ListTaskCmd represents the cli command
-var ListTaskCmd = &cobra.Command{
-	Use:   "list",
+// cliCmd represents the cli command
+var cliCmd = &cobra.Command{
+	Use:   "cli",
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -25,20 +22,15 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("list called")
-		GRPCClient := client.NewGRPCClient()
-		fmt.Println("try client")
-		res, err := GRPCClient.ListTask(context.Background(), &api.ListTaskRequest{})
-		if err != nil {
-			log.Println(err)
-		}
-		for _, i := range res.GetTasks() {
-			log.Println(i)
-		}
+		fmt.Println("cli called")
+
 	},
 }
 
 func init() {
+	rootCmd.AddCommand(cliCmd)
+	cliCmd.AddCommand(cli.AddTaskCmd)
+	cliCmd.AddCommand(cli.ListTaskCmd)
 
 	// Here you will define your flags and configuration settings.
 

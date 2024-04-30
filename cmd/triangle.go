@@ -1,12 +1,12 @@
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
-	"ainokiseki/binance_rush/pkg/client"
 	"fmt"
+
+	"ainokiseki/binance_rush/pkg/trade"
 
 	"github.com/spf13/cobra"
 )
@@ -35,14 +35,14 @@ to quickly create a Cobra application.`,
 
 		stable := cmd.Flag("stable").Value.String()
 		chao := cmd.Flag("symbol").Value.String()
-		bClient := &client.BinanceClient{
+		bClient := &trade.BinanceClient{
 			Client: c,
 		}
-		client.InitChaoBuyNumStr(*triConfig.quant)
-		client.InitChaoPriceConfig(*triConfig.chaoPrecision)
-		client.InitMaxTransTime(*triConfig.limit)
-		client.ProfitLimit = *triConfig.profit
-		client.RunTriangle(bClient, chao, stable)
+		trade.InitChaoBuyNumStr(*triConfig.quant)
+		trade.InitChaoPriceConfig(*triConfig.chaoPrecision)
+		trade.InitMaxTransTime(*triConfig.limit)
+		trade.ProfitLimit = *triConfig.profit
+		trade.RunTriangle(bClient, chao, stable)
 
 	},
 }
@@ -57,7 +57,7 @@ func init() {
 	triConfig.profit = triangleCmd.Flags().Int("profit", 10003, "profit")
 
 	usdt := triangleCmd.Flags().String("usdt", "USDT", "coin as usdt")
-	client.USDT = *usdt
+	trade.USDT = *usdt
 
 	triangleCmd.MarkFlagRequired("symbol")
 	triangleCmd.MarkFlagRequired("stable")

@@ -1,6 +1,5 @@
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
@@ -13,7 +12,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"ainokiseki/binance_rush/common"
-	"ainokiseki/binance_rush/handler"
+	"ainokiseki/binance_rush/util"
 )
 
 // tradeCmd represents the trade command
@@ -29,7 +28,7 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		ctx := context.Background()
-		mean, _ := handler.CalculateDelay(ctx, c)
+		mean, _ := util.GetDelay(ctx, c)
 		fmt.Println("平均延时：", mean)
 		var startTime int64 = 1712836800000
 		fireTime := startTime - int64(mean)

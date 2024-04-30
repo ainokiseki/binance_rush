@@ -1,12 +1,12 @@
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
-	"ainokiseki/binance_rush/pkg/client"
 	"fmt"
+
+	"ainokiseki/binance_rush/pkg/trade"
 
 	"github.com/spf13/cobra"
 )
@@ -25,10 +25,10 @@ to quickly create a Cobra application.`,
 		fmt.Println("future called")
 		stable := cmd.Flag("stable").Value.String()
 		chao := cmd.Flag("symbol").Value.String()
-		bClient := &client.BinanceClient{
+		bClient := &trade.BinanceClient{
 			Client: c,
 		}
-		client.RunFuture(bClient, f, chao, stable)
+		trade.RunFuture(bClient, f, chao, stable)
 	},
 }
 

@@ -1,6 +1,5 @@
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
@@ -8,7 +7,8 @@ import (
 	"os"
 	"time"
 
-	"ainokiseki/binance_rush/pkg/client"
+	"ainokiseki/binance_rush/pkg/trade"
+	"ainokiseki/binance_rush/settings"
 
 	"github.com/ainokiseki/go-binance/v2"
 
@@ -30,7 +30,7 @@ to quickly create a Cobra application.`,
 	// Run: func(cmd *cobra.Command, args []string) { },
 }
 var c *binance.Client
-var f *client.FutureClient
+var f *trade.FutureClient
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
@@ -63,14 +63,14 @@ func init() {
 		c = binance.NewClientWithConfig(binance.ClientCreateConfig{
 			Proxy:     *px,
 			Signature: nil,
-			APIKey:    AK,
-			SecretKey: SK,
+			APIKey:    settings.Config.AK,
+			SecretKey: settings.Config.SK,
 		})
-		f = client.NewFutureClient(binance.ClientCreateConfig{
+		f = trade.NewFutureClient(binance.ClientCreateConfig{
 			Proxy:     *px,
 			Signature: nil,
-			APIKey:    AK,
-			SecretKey: SK,
+			APIKey:    settings.Config.AK,
+			SecretKey: settings.Config.SK,
 		})
 	}
 }
