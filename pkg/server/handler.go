@@ -89,7 +89,7 @@ func (h *handler) ListTask(ctx context.Context, req *api.ListTaskRequest) (*api.
 			log.Println("last time error", err)
 			continue
 		}
-		nextTime, err := i.LastRun()
+		nextTime, err := i.NextRun()
 		if err != nil {
 			log.Println("next time error", err)
 			continue
