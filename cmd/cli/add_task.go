@@ -17,6 +17,7 @@ import (
 
 var startTimeMilli *int64
 var runTimes *int
+var orderType *string
 
 // AddTaskCmd represents the cli command
 var AddTaskCmd = &cobra.Command{
@@ -33,12 +34,18 @@ to quickly create a Cobra application.`,
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 		defer cancel()
 		GRPCClient := client.NewGRPCClient()
+		timeType := api.TimeInForceType_value[*orderType]
+		if timeType == 0 {
+			log.Print("order type error")
+			return
+		}
 		res, err := GRPCClient.CreateCoinRushTask(ctx, &api.CreateCoinRushTaskRequest{
 			StartTimestampMilli: *startTimeMilli,
 			Symbol:              args[0],
 			BidQuantity:         args[1],
 			Price:               args[2],
 			ExecuteTimes:        int32(*runTimes),
+			OrderType:           api.TimeInForceType(timeType),
 		})
 		if err != nil {
 			log.Print(err)
@@ -51,6 +58,7 @@ func init() {
 	startTimeMilli = AddTaskCmd.Flags().Int64("start", 0, "task start time")
 	// Here you will define your flags and configuration settings.
 	runTimes = AddTaskCmd.Flags().Int("times", 0, "task start time")
+	orderType = AddTaskCmd.Flags().String("time_type", "IOC", "order type")
 
 	AddTaskCmd.MarkFlagRequired("start")
 	AddTaskCmd.MarkFlagRequired("times")

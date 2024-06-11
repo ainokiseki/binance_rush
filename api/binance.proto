@@ -21,12 +21,20 @@ message HelloRequest {
 message HelloReply {
 }
 
+enum TimeInForceType{
+  UNKNOWN=0;
+  GTC=1;
+  IOC=2;
+  FOK=3;
+}
+
 message CreateCoinRushTaskRequest{
   int64 start_timestamp_milli=1;
   string symbol=2;
   string bid_quantity=3;
   string price=4;
   int32 execute_times=5;
+  TimeInForceType order_type=6;
 }
 
 message    CreateCoinRushTaskReply{

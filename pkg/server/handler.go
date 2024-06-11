@@ -6,6 +6,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/ainokiseki/go-binance/v2"
 	"github.com/go-co-op/gocron/v2"
 
 	"ainokiseki/binance_rush/api"
@@ -41,10 +42,13 @@ func (h *handler) CreateCoinRushTask(ctx context.Context, request *api.CreateCoi
 
 	subctx := context.Background()
 	ch := make(chan struct{})
+	order := trade.NewLimitOrder(request.GetPrice(), request.GetBidQuantity(), request.GetSymbol()).
+		SetNewOrderRespType(binance.NewOrderRespTypeFULL).SetSideType(binance.SideTypeBuy).
+		SetTimeInForce(request.OrderType)
 	for i := 0; i < int(request.GetExecuteTimes()); i++ {
 		go func() {
 			<-ch
-			err := h.client.LimitTakerBuyOrder(subctx, request.GetSymbol(), "", request.GetPrice(), request.GetBidQuantity())
+			err := h.client.Order(subctx, order)
 			log.Print(err)
 		}()
 	}
@@ -61,7 +65,6 @@ func (h *handler) CreateCoinRushTask(ctx context.Context, request *api.CreateCoi
 		gocron.NewTask(func() {
 			close(ch)
 			log.Println("close channel in:", time.Now().Format("2006-01-02 15:04:05.000"))
-
 		}),
 		gocron.WithName(request.GetSymbol()+":"+request.GetPrice()+":"+request.GetBidQuantity()),
 	)

@@ -46,12 +46,23 @@ func (c *BinanceClient) GetChaoDepth(ctx context.Context, chao, stable string) (
 	return c.NewDepthService().Symbol(chao + stable).Limit(2).Do(ctx)
 }
 
+func (c *BinanceClient) Order(ctx context.Context, tradeInfo *OrderInfo) error {
+	_, err := c.NewCreateOrderService().Symbol(tradeInfo.symbol).Side(tradeInfo.sideType).
+		Type(tradeInfo.orderType).
+		Quantity(tradeInfo.quantity).
+		Price(tradeInfo.price).
+		TimeInForce(tradeInfo.timeInForce).
+		NewOrderRespType(tradeInfo.newOrderRespType).
+		Do(context.Background())
+	return err
+}
+
 func (c *BinanceClient) LimitTakerBuyOrder(ctx context.Context, chao, stable, price, quantity string) error {
 	_, err := c.NewCreateOrderService().Symbol(chao + stable).Side("BUY").
 		Type(binance.OrderTypeLimit).
 		Quantity(quantity).
 		Price(price).
-		TimeInForce(binance.TimeInForceTypeFOK).
+		TimeInForce(binance.TimeInForceTypeIOC).
 		NewOrderRespType(binance.NewOrderRespTypeACK).
 		Do(context.Background())
 	return err
