@@ -31,3 +31,11 @@ gen:
 # 清除生成的文件
 clean:
 	rm -f $(GO_GEN_PATH)/*.go
+
+# install golang 1.21 on ubuntu 20.04
+go-init:
+	wget https://go.dev/dl/go1.20.14.linux-amd64.tar.gz
+	sudo tar -C /usr/local -xzf go1.20.14.linux-amd64.tar.gz
+	echo "export PATH=$PATH:/usr/local/go/bin" >> ~/.bashrc
+	source ~/.bashrc
+	go version
